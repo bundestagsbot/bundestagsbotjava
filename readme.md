@@ -8,11 +8,18 @@ See GitHub projects for a roadmap.<br/>
 All help is welcome.<br/>
 Please open a pull request on master if you want to implement something :)
 
-## Build
+## Setup
 
-```bash
+First setup your own config
+```
 git clone git@github.com:bundestagsbot/bundestagsbotjava.git
 cd bundestagsbotjava
+cp default-config.json config.json
+nano config.json
+```
+
+## Build
+```bash
 mvn -f pom.xml clean package
 cd target
 java -jar bundestagsbot.jar
