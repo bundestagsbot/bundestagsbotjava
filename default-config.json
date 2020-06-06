@@ -1,0 +1,8 @@
+{
+  "discord_bot_token": "bot_token_goes_here",
+  "activity_string": "Besserer Bundestagsbot",
+  "bot_command_channels": [
+    "channel id"
+  ],
+  "command_prefix": "_"
+}
