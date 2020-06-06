@@ -52,9 +52,9 @@ public class CommandSurvey implements ICommandExecutor{
 
         EmbedBuilder info = new NeutralLogEmbed();
 
-        ArrayList<String> surveyKeys = new ArrayList<>(response.getSurveyMap().keySet());
+        ArrayList<String> surveyKeys = new ArrayList<String>(response.getSurveyMap().keySet());
         // https://stackoverflow.com/a/13973660/9850709
-        surveyKeys.sort(new Comparator<>() {
+        surveyKeys.sort(new Comparator<String>() {
             public int compare(String o1, String o2) {
                 return extractInt(o2) - extractInt(o1);
             }
