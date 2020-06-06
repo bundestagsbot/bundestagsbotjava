@@ -21,6 +21,7 @@ public class CommandHandler extends ListenerAdapter {
     private static final HashMap<String, ICommandExecutor> commands = new HashMap<String, ICommandExecutor>() {{
         put("about", new CommandAbout());
         put("survey", new CommandSurvey());
+        put("help", new CommandHelp());
     }};
 
     public static HashMap<String, ICommandExecutor> getCommands() { return commands; }
