@@ -25,6 +25,7 @@ public class RootDawumJson {
         return database;
     }
 
+    public Map<String, Survey> getSurveyMap() { return surveys; }
     public Collection<Survey> getSurveys() {
         return surveys.values();
     }
@@ -39,6 +40,7 @@ public class RootDawumJson {
         return parties.get(id);
     }
 
+    public Map<String, Parliament> getParliamentMap() { return parliaments; }
     public Collection<Parliament> getParliaments() {
         return parliaments.values();
     }

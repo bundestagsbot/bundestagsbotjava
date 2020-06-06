@@ -7,6 +7,8 @@ public class Parliament {
     private String shortcut;
     @JsonProperty("Name")
     private String name;
+    @JsonProperty("Election")
+    private String election;
 
     public String getShortcut() {
         return shortcut;
@@ -16,9 +18,6 @@ public class Parliament {
         return name;
     }
 
-    public String getElection() {
-        return election;
-    }
+    public String getElection() { return election; }
 
-    private String election;
 }
