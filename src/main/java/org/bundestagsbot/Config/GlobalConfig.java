@@ -1,5 +1,8 @@
 package org.bundestagsbot.Config;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+import org.bundestagsbot.Discord.DiscordClient;
 import org.bundestagsbot.LocalUtils.ArrayObjectUtil;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.JSONObject;
@@ -11,11 +14,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
 public class GlobalConfig {
 
-    private final static Logger LOGGER = Logger.getLogger(GlobalConfig.class.getName());
+    private static final Logger logger = LogManager.getLogger(GlobalConfig.class.getName());
     private static JSONObject cfg;
 
 
@@ -25,7 +27,7 @@ public class GlobalConfig {
 
     public static Object get(Object key) throws NullPointerException{
         if (!getCfg().containsKey(key)) {
-            LOGGER.warning("Did not find config key \"" + key.toString() + "\". Please update your config.");
+            logger.warn("Did not find config key \"" + key.toString() + "\". Please update your config.");
             return null;
         }
         return getCfg().get(key);
@@ -48,10 +50,10 @@ public class GlobalConfig {
 
     public static boolean loadConfig() {
         try {
-            LOGGER.info("Loading config.");
+            logger.info("Loading config.");
             Object obj = new JSONParser().parse(new FileReader("config.json"));
             cfg = (JSONObject) obj;
-            LOGGER.info("Found " + cfg.keySet().size() + " entries.");
+            logger.info("Found " + cfg.keySet().size() + " entries.");
         } catch(IOException | ParseException ex) {
             ex.printStackTrace();
             return false;
@@ -61,10 +63,10 @@ public class GlobalConfig {
 
     @SuppressWarnings("unchecked")
     public static boolean generateConfig() {
-        LOGGER.info("Generating config.json");
+        logger.info("Generating config.json");
         File config = new File("./config.json");
         if (config.exists()) {
-            LOGGER.info("config.json already exists.");
+            logger.info("config.json already exists.");
             return true;
         }
 
