@@ -5,8 +5,9 @@ import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
-import org.bundestagsbot.Config.Config;
+import org.bundestagsbot.Config.GuildConfig;
 import org.bundestagsbot.Exceptions.CommandCreationFailedException;
+import org.json.simple.JSONObject;
 
 import java.util.Arrays;
 import java.util.List;
@@ -20,27 +21,27 @@ public class Command {
     private Guild guild;
     private Message message;
 
-    public Command() { }
-
     public Command(MessageReceivedEvent event) throws CommandCreationFailedException {
         this.author = event.getAuthor();
         this.channel = event.getChannel();
         this.guild = event.getGuild();
         this.message =event.getMessage();
 
+
         String messageContent = event.getMessage().getContentRaw();
+
+        this.prefix = (String) GuildConfig.get("command_prefix", "_", this.guild.getId());
 
         if (messageContent.isEmpty())
             return;
 
-        if (!messageContent.startsWith(Config.get("command_prefix", "_").toString()))
+        if (!messageContent.startsWith(prefix))
             return;
 
-        if (messageContent.equals(Config.get("command_prefix", "_")))
+        if (messageContent.equals(prefix))
             return;
 
-        this.prefix = Config.get("command_prefix", "_").toString();
-        this.args = Arrays.asList(messageContent.split(" "));
+        this.args = Arrays.asList(messageContent.split(" +"));
         try {
             this.invoke = args.get(0).substring(this.prefix.length());
         } catch(IndexOutOfBoundsException ex)
