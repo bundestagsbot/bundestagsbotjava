@@ -15,13 +15,10 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Optional;
 import java.util.logging.Level;
-
-import static org.bundestagsbot.Commands.ICommandExecutor.LOGGER;
-
+import java.util.logging.Logger;
 
 public class FileSystem {
-
-
+    private final static Logger LOGGER = Logger.getLogger(FileSystem.class.getName());
 
     public static void saveJson(@NotNull String path, @NotNull JSONObject content) throws IOException {
         createFolderStructure(path);
@@ -34,10 +31,7 @@ public class FileSystem {
             LOGGER.log(Level.WARNING, "Error writing JSON to File ", e);
             throw e;
         }
-
-
     }
-
 
     /**
      * @param path The path to the JSON you want to get
@@ -55,17 +49,14 @@ public class FileSystem {
         catch(IOException e) {
             LOGGER.log(Level.WARNING, "Error reading file ", e);
             return null;
-
         }
         catch(ParseException e){
             LOGGER.log(Level.WARNING, "Error parsing file ", e);
             return null;
         }
-
     }
 
     public static boolean writeFile(String path, String contents) throws IOException{
-
         createFolderStructure(path);
 
         try {
@@ -89,16 +80,11 @@ public class FileSystem {
         }
     }
 
-    public static String loadFile(String path, boolean print) throws IOException{
-
+    public static String loadFile(String path) throws IOException{
         return Files.readString(Paths.get(path), StandardCharsets.UTF_8);
-
     }
 
     public static Optional<JSONObject> loadJson(String path){
-
         return Optional.ofNullable(loadJson(path, true));
     }
-
-
 }
