@@ -16,6 +16,7 @@ import java.util.logging.Logger;
 public class GlobalConfig {
 
     private final static Logger LOGGER = Logger.getLogger(GlobalConfig.class.getName());
+    private final static String configPath = System.getenv().getOrDefault("CONFIG_PATH", ".") + "/config.json";
     private static JSONObject cfg;
 
 
@@ -49,7 +50,7 @@ public class GlobalConfig {
     public static boolean loadConfig() {
         try {
             LOGGER.info("Loading config.");
-            Object obj = new JSONParser().parse(new FileReader("config.json"));
+            Object obj = new JSONParser().parse(new FileReader(configPath));
             cfg = (JSONObject) obj;
             LOGGER.info("Found " + cfg.keySet().size() + " entries.");
         } catch(IOException | ParseException ex) {
@@ -61,10 +62,10 @@ public class GlobalConfig {
 
     @SuppressWarnings("unchecked")
     public static boolean generateConfig() {
-        LOGGER.info("Generating config.json");
-        File config = new File("./config.json");
+        LOGGER.info("Generating " + configPath);
+        File config = new File(configPath);
         if (config.exists()) {
-            LOGGER.info("config.json already exists.");
+            LOGGER.info(configPath + " already exists.");
             return true;
         }
 

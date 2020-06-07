@@ -15,7 +15,7 @@ import java.util.logging.Logger;
 public class GuildConfig {
 
     private final static Logger LOGGER = Logger.getLogger(GuildConfig.class.getName());
-
+    private final static String configPath = System.getenv().getOrDefault("CONFIG_PATH", ".") + "/guilds/";
     private static HashMap<String, JSONObject> guildcfgs = new HashMap<>();
 
     public static JSONObject getGuildCfg(String guildID) {
@@ -57,7 +57,7 @@ public class GuildConfig {
     private static JSONObject loadGuildConfig(String guildID) {
 
         LOGGER.info("Loading config.");
-        Optional<JSONObject> cfgOptional = FileSystem.loadJson("./guilds/"+guildID+"/config.json");
+        Optional<JSONObject> cfgOptional = FileSystem.loadJson(configPath + guildID + "/config.json");
 
         if(cfgOptional.isEmpty()) {
 
@@ -75,11 +75,11 @@ public class GuildConfig {
 
     @SuppressWarnings("unchecked")
     public static void generateGuildConfig(String guildID) {
-        LOGGER.info("Generating config.json");
+        LOGGER.info("Generating guild config.json for guild: \"" + guildID + "\".");
         //Todo: verify following line
-        File config = new File("./guilds/"+guildID+"/config.json");
+        File config = new File(configPath + guildID + "/config.json");
         if (config.exists()) {
-            LOGGER.info("config.json for the guild ID:"+guildID+" already exists.");
+            LOGGER.info("config.json for the guild ID: \"" + guildID + "\" already exists.");
             return;
         }
 
@@ -89,7 +89,7 @@ public class GuildConfig {
         jsonCFG.put("command_prefix", "_");
 
         try {
-            FileSystem.saveJson("./guilds/" + guildID + "/config.json", jsonCFG);
+            FileSystem.saveJson(configPath + guildID + "/config.json", jsonCFG);
         } catch (IOException ignored) {
         }
     }

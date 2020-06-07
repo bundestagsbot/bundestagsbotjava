@@ -39,5 +39,4 @@ public class DiscordClient extends ListenerAdapter {
             LOGGER.severe("Failed to login to Discord.");
         }
     }
-
 }
