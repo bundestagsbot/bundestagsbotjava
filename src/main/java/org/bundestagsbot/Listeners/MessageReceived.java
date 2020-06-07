@@ -1,7 +1,6 @@
 package org.bundestagsbot.Listeners;
 
 import org.bundestagsbot.Commands.CommandHandler;
-import org.bundestagsbot.Config.Config;
 import org.bundestagsbot.Discord.DiscordClient;
 import org.bundestagsbot.Exceptions.CommandCreationFailedException;
 import org.bundestagsbot.Exceptions.CommandExecuteException;

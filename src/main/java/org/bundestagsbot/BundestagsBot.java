@@ -1,12 +1,10 @@
 package org.bundestagsbot;
 
-import org.bundestagsbot.Config.Config;
+import org.bundestagsbot.Config.GlobalConfig;
+import org.bundestagsbot.Config.GuildConfig;
 import org.bundestagsbot.Meta.About;
 import org.bundestagsbot.Discord.DiscordClient;
 import org.bundestagsbot.Discord.DiscordConnectionHandling;
-import net.dv8tion.jda.api.AccountType;
-import net.dv8tion.jda.api.JDA;
-import net.dv8tion.jda.api.JDABuilder;
 
 import java.util.logging.Handler;
 import java.util.logging.Level;
@@ -31,7 +29,7 @@ public class BundestagsBot {
         LOGGER.info(About.getInfo());
 
         LOGGER.fine("Initialize config.");
-        if (Config.generateConfig() && Config.loadConfig()) {
+        if (GlobalConfig.generateConfig() && GlobalConfig.loadConfig()) {
             LOGGER.info("Successfully created config.json or already exist.");
         } else {
             LOGGER.severe("Initializing config failed");
