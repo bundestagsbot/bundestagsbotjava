@@ -25,4 +25,10 @@ cd target
 java -jar bundestagsbot.jar
 ```
 
+or all in one via:
+
+```bash
+mvn install exec:java
+```
+
 or use docker if you are familiar with it.
