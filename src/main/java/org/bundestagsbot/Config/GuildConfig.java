@@ -5,9 +5,11 @@ import org.bundestagsbot.LocalUtils.FileSystem;
 import org.json.simple.JSONObject;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 import java.util.logging.Logger;
 
 public class GuildConfig {
@@ -55,17 +57,20 @@ public class GuildConfig {
     private static JSONObject loadGuildConfig(String guildID) {
 
         LOGGER.info("Loading config.");
-        JSONObject cfg = FileSystem.loadJson("./guilds/"+guildID+"/config.json");
+        Optional<JSONObject> cfgOptional = FileSystem.loadJson("./guilds/"+guildID+"/config.json");
 
-        if(cfg == null) {
+        if(cfgOptional.isEmpty()) {
 
             generateGuildConfig(guildID);
             return loadGuildConfig(guildID);
 
         }
-        LOGGER.info("Found " + cfg.keySet().size() + " entries.");
-        guildcfgs.put(guildID, cfg);
-        return cfg;
+        else {
+            JSONObject cfg = cfgOptional.get();
+            LOGGER.info("Found " + cfg.keySet().size() + " entries.");
+            guildcfgs.put(guildID, cfg);
+            return cfg;
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -81,8 +86,11 @@ public class GuildConfig {
         JSONObject jsonCFG = new JSONObject();
 
         jsonCFG.put("bot_command_channels", new ArrayList<String>());
-        jsonCFG.put("command_prefix", "-");
+        jsonCFG.put("command_prefix", "_");
 
-        FileSystem.saveJson("./guilds/" + guildID + "/config.json", jsonCFG);
+        try {
+            FileSystem.saveJson("./guilds/" + guildID + "/config.json", jsonCFG);
+        } catch (IOException ignored) {
+        }
     }
 }

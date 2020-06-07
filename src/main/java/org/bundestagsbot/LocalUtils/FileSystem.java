@@ -1,6 +1,7 @@
 package org.bundestagsbot.LocalUtils;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -12,27 +13,26 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Optional;
+import java.util.logging.Level;
+
+import static org.bundestagsbot.Commands.ICommandExecutor.LOGGER;
 
 
 public class FileSystem {
 
-    /**
-     * @param path has to be an existing path
-     * @param content
-     * @return boolean whether the file was saved, false in case of IOException
-     */
-    public static boolean saveJson(@NotNull String path, @NotNull JSONObject content){
+
+
+    public static void saveJson(@NotNull String path, @NotNull JSONObject content) throws IOException {
         createFolderStructure(path);
 
         try(FileWriter file = new FileWriter((path))) {
             file.write(content.toJSONString());
             file.flush();
-            return true;
         }
         catch(IOException e) {
-            e.printStackTrace();
-            System.out.println(path);
-            return false;
+            LOGGER.log(Level.WARNING, "Error writing JSON to File ", e);
+            throw e;
         }
 
 
@@ -43,6 +43,7 @@ public class FileSystem {
      * @param path The path to the JSON you want to get
      * @return JSONObject of the JSON, if it exists, otherwise returns null
      **/
+    @Nullable
     public static JSONObject loadJson(String path, boolean print){
         JSONParser parser = new JSONParser();
         try{
@@ -50,24 +51,30 @@ public class FileSystem {
 
             if(print) System.out.println(obj);
             return (JSONObject) obj;
-        } catch(IOException | ParseException e){
-            e.printStackTrace();
+        }
+        catch(IOException e) {
+            LOGGER.log(Level.WARNING, "Error reading file ", e);
+            return null;
+
+        }
+        catch(ParseException e){
+            LOGGER.log(Level.WARNING, "Error parsing file ", e);
             return null;
         }
 
     }
 
-    public static boolean writeFile(String path, String contents) {
-        createFolderStructure(path);
+    public static boolean writeFile(String path, String contents) throws IOException{
 
+        createFolderStructure(path);
 
         try {
             Files.writeString(Paths.get(path), contents, StandardCharsets.UTF_8);
             return true;
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.WARNING, "Error writing File ", e);
+            return false;
         }
-        return false;
     }
 
     private static void createFolderStructure(String path) {
@@ -78,25 +85,19 @@ public class FileSystem {
             Files.createDirectories(paths);
         }
         catch(IOException e){
-            e.printStackTrace();
+            LOGGER.log(Level.WARNING, "Error creating folder structure ", e);
         }
     }
 
-    public static String loadFile(String path, boolean print) {
+    public static String loadFile(String path, boolean print) throws IOException{
 
-
-        try {
-            return Files.readString(Paths.get(path), StandardCharsets.UTF_8);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
-
+        return Files.readString(Paths.get(path), StandardCharsets.UTF_8);
 
     }
 
-    public static JSONObject loadJson(String path){
-        return loadJson(path, true);
+    public static Optional<JSONObject> loadJson(String path){
+
+        return Optional.ofNullable(loadJson(path, true));
     }
 
 
