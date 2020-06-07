@@ -1,0 +1,11 @@
+name: Docker
+on: [pull_request]
+
+jobs:
+  DockerBuild:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Building docker
+      run: |
+        docker build .
