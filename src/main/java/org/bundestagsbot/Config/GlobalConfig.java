@@ -11,6 +11,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class GlobalConfig {
@@ -54,7 +55,7 @@ public class GlobalConfig {
             cfg = (JSONObject) obj;
             LOGGER.info("Found " + cfg.keySet().size() + " entries.");
         } catch(IOException | ParseException ex) {
-            ex.printStackTrace();
+            LOGGER.log(Level.WARNING, "Failed to save global config.json", ex);
             return false;
         }
         return true;

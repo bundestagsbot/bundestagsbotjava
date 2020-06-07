@@ -6,17 +6,15 @@ import org.json.simple.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class GuildConfig {
 
     private final static Logger LOGGER = Logger.getLogger(GuildConfig.class.getName());
     private final static String configPath = System.getenv().getOrDefault("CONFIG_PATH", ".") + "/guilds/";
-    private static HashMap<String, JSONObject> guildcfgs = new HashMap<>();
+    private static Map<String, JSONObject> guildcfgs = new HashMap<>();
 
     public static JSONObject getGuildCfg(String guildID) {
 
@@ -90,7 +88,8 @@ public class GuildConfig {
 
         try {
             FileSystem.saveJson(configPath + guildID + "/config.json", jsonCFG);
-        } catch (IOException ignored) {
+        } catch (IOException ex) {
+            LOGGER.log(Level.WARNING, "Failed to save guild config.json", ex);
         }
     }
 }
