@@ -2,7 +2,7 @@ package org.bundestagsbot.Discord;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.bundestagsbot.Config.Config;
+import org.bundestagsbot.Config.GlobalConfig;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.events.DisconnectEvent;
 import net.dv8tion.jda.api.events.ReadyEvent;
@@ -26,7 +26,7 @@ public class DiscordConnectionHandling extends ListenerAdapter {
     public void onReady(@Nonnull ReadyEvent event) {
         logger.info("Bot connected to Discord API.");
         connected = true;
-        Object activity = Config.get("activity_string");
+        Object activity = GlobalConfig.get("activity_string");
         if (activity != null) {
             event.getJDA().getPresence().setActivity(Activity.playing(activity.toString()));
         }

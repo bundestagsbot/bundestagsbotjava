@@ -2,7 +2,7 @@ package org.bundestagsbot;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.bundestagsbot.Config.Config;
+import org.bundestagsbot.Config.GlobalConfig;
 import org.bundestagsbot.Discord.DiscordClient;
 import org.bundestagsbot.Discord.DiscordConnectionHandling;
 import org.bundestagsbot.Meta.About;
@@ -22,7 +22,7 @@ public class BundestagsBot
         logger.info(About.getInfo());
 
         logger.debug("Initialize config.");
-        if (Config.generateConfig() && Config.loadConfig())
+        if (GlobalConfig.generateConfig() && GlobalConfig.loadConfig())
         {
             logger.info("Successfully created config.json or already exist.");
         } else

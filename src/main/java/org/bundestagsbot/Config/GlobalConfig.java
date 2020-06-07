@@ -15,10 +15,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Config {
+public class GlobalConfig {
 
-    private static final Logger logger = LogManager.getLogger(Config.class.getName());
+    private static final Logger logger = LogManager.getLogger(GlobalConfig.class.getName());
     private static JSONObject cfg;
+
 
     public static JSONObject getCfg() {
         return cfg;
@@ -73,7 +74,6 @@ public class Config {
         jsonCFG.put("discord_bot_token", "bot_token_goes_here");
         jsonCFG.put("activity_string", null);
         jsonCFG.put("bot_command_channels", new ArrayList<String>());
-        jsonCFG.put("command_prefix", "-");
 
         try {
             FileWriter writer = new FileWriter(config);
