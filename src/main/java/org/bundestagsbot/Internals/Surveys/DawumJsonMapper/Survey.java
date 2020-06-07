@@ -25,7 +25,7 @@ public class Survey {
         return surveyed_persons;
     }
 
-    public String getParliament_id() {
+    public String getParliamelnt_id() {
         return parliament_id;
     }
 
