@@ -22,7 +22,7 @@ nano config.json
 ```bash
 mvn -f pom.xml clean package
 cd target
-java -jar bundestagsbot.jar
+java -jar bundestagsbot-jar-with-dependencies.jar
 ```
 
 or all in one via:

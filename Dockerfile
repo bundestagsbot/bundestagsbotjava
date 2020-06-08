@@ -7,7 +7,7 @@ WORKDIR /app
 RUN mvn -f /app/pom.xml clean package
 
 FROM openjdk:11-jre-slim
-COPY --from=build /app/target/bundestagsbot.jar /bin
+COPY --from=build /app/target/ /app/bin
 
-WORKDIR /bin
-ENTRYPOINT ["java","-jar","bundestagsbot.jar"]
+WORKDIR /app/bin
+ENTRYPOINT ["java","-jar","bundestagsbot-jar-with-dependencies.jar"]
