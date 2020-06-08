@@ -1,5 +1,8 @@
 package org.bundestagsbot.Config;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+import org.bundestagsbot.Discord.DiscordClient;
 import org.bundestagsbot.LocalUtils.ArrayObjectUtil;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.JSONObject;
@@ -11,12 +14,13 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
-public class Config {
+public class GlobalConfig {
 
-    private final static Logger LOGGER = Logger.getLogger(Config.class.getName());
+    private static final Logger logger = LogManager.getLogger(GlobalConfig.class.getName());
+    private final static String configPath = System.getenv().getOrDefault("CONFIG_PATH", ".") + "/config.json";
     private static JSONObject cfg;
+
 
     public static JSONObject getCfg() {
         return cfg;
@@ -24,7 +28,7 @@ public class Config {
 
     public static Object get(Object key) throws NullPointerException{
         if (!getCfg().containsKey(key)) {
-            LOGGER.warning("Did not find config key \"" + key.toString() + "\". Please update your config.");
+            logger.warn("Did not find config key \"" + key.toString() + "\". Please update your config.");
             return null;
         }
         return getCfg().get(key);
@@ -47,12 +51,12 @@ public class Config {
 
     public static boolean loadConfig() {
         try {
-            LOGGER.info("Loading config.");
-            Object obj = new JSONParser().parse(new FileReader("config.json"));
+            logger.info("Loading config.");
+            Object obj = new JSONParser().parse(new FileReader(configPath));
             cfg = (JSONObject) obj;
-            LOGGER.info("Found " + cfg.keySet().size() + " entries.");
+            logger.info("Found " + cfg.keySet().size() + " entries.");
         } catch(IOException | ParseException ex) {
-            ex.printStackTrace();
+            logger.warn("Failed to save global config.json", ex);
             return false;
         }
         return true;
@@ -60,10 +64,10 @@ public class Config {
 
     @SuppressWarnings("unchecked")
     public static boolean generateConfig() {
-        LOGGER.info("Generating config.json");
-        File config = new File("./config.json");
+        logger.info("Generating " + configPath);
+        File config = new File(configPath);
         if (config.exists()) {
-            LOGGER.info("config.json already exists.");
+            logger.info(configPath + " already exists.");
             return true;
         }
 
@@ -71,7 +75,6 @@ public class Config {
         jsonCFG.put("discord_bot_token", "bot_token_goes_here");
         jsonCFG.put("activity_string", null);
         jsonCFG.put("bot_command_channels", new ArrayList<String>());
-        jsonCFG.put("command_prefix", "-");
 
         try {
             FileWriter writer = new FileWriter(config);
