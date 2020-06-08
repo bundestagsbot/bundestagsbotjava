@@ -32,6 +32,9 @@ public class CommandSurvey implements ICommandExecutor{
 
     @Override
     public String helpString() {
-        return "This returns the newest survey | \"Sonntagsfrage\".";
+        return "Usage:\n" +
+                "survey <parliament_id>\n\n" +
+                "e.g. \"0\" is the Bundestag.\n" +
+                "This returns the newest survey | \"Sonntagsfrage\".";
     }
 }

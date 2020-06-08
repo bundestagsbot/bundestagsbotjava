@@ -8,7 +8,6 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.bundestagsbot.Discord.DiscordConnectionHandling;
 import org.bundestagsbot.Embeds.ErrorLogEmbed;
 import org.bundestagsbot.Exceptions.CommandCreationFailedException;
 import org.bundestagsbot.Exceptions.CommandExecuteException;

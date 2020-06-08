@@ -2,7 +2,6 @@ package org.bundestagsbot.Commands;
 
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
-import org.bundestagsbot.Config.Config;
 import org.bundestagsbot.Embeds.ErrorLogEmbed;
 import org.bundestagsbot.Embeds.NeutralLogEmbed;
 import org.bundestagsbot.Exceptions.CommandExecuteException;
@@ -48,7 +47,7 @@ public class CommandHelp implements ICommandExecutor{
     @Override
     public String helpString() {
         return "Usage:\n" +
-               Config.get("command_prefix", "_") + "help <cmd>\n" +
-                "Prints help and usage page for a defined command.";
+               "help <cmd>\n\n" +
+               "Prints help and usage page for a defined command.";
     }
 }

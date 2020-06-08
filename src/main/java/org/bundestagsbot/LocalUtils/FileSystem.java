@@ -1,7 +1,8 @@
 package org.bundestagsbot.LocalUtils;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -15,10 +16,9 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Optional;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class FileSystem {
-    private final static Logger LOGGER = Logger.getLogger(FileSystem.class.getName());
+    private static final Logger logger = LogManager.getLogger(FileSystem.class.getName());
 
     public static void saveJson(@NotNull String path, @NotNull JSONObject content) throws IOException {
         createFolderStructure(path);
@@ -28,7 +28,7 @@ public class FileSystem {
             file.flush();
         }
         catch(IOException e) {
-            LOGGER.log(Level.WARNING, "Error writing JSON to File ", e);
+            logger.warn("Error writing JSON to File ", e);
             throw e;
         }
     }
@@ -37,22 +37,19 @@ public class FileSystem {
      * @param path The path to the JSON you want to get
      * @return JSONObject of the JSON, if it exists, otherwise returns null
      **/
-    @Nullable
-    public static JSONObject loadJson(String path, boolean print){
+    public static Optional<JSONObject> loadJson(String path){
         JSONParser parser = new JSONParser();
         try{
             Object obj = parser.parse(new FileReader(path));
-
-            if(print) System.out.println(obj);
-            return (JSONObject) obj;
+            return Optional.of((JSONObject) obj);
         }
         catch(IOException e) {
-            LOGGER.log(Level.WARNING, "Error reading file ", e);
-            return null;
+            logger.warn("Error reading file ", e);
+            return Optional.empty();
         }
         catch(ParseException e){
-            LOGGER.log(Level.WARNING, "Error parsing file ", e);
-            return null;
+           logger.warn("Error parsing file ", e);
+            return Optional.empty();
         }
     }
 
@@ -63,7 +60,7 @@ public class FileSystem {
             Files.writeString(Paths.get(path), contents, StandardCharsets.UTF_8);
             return true;
         } catch (IOException e) {
-            LOGGER.log(Level.WARNING, "Error writing File ", e);
+            logger.warn("Error writing File ", e);
             return false;
         }
     }
@@ -76,15 +73,11 @@ public class FileSystem {
             Files.createDirectories(paths);
         }
         catch(IOException e){
-            LOGGER.log(Level.WARNING, "Error creating folder structure ", e);
+            logger.warn("Error creating folder structure ", e);
         }
     }
 
     public static String loadFile(String path) throws IOException{
         return Files.readString(Paths.get(path), StandardCharsets.UTF_8);
-    }
-
-    public static Optional<JSONObject> loadJson(String path){
-        return Optional.ofNullable(loadJson(path, true));
     }
 }

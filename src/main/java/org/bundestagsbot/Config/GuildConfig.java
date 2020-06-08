@@ -58,10 +58,8 @@ public class GuildConfig {
         Optional<JSONObject> cfgOptional = FileSystem.loadJson(configPath + guildID + "/config.json");
 
         if(cfgOptional.isEmpty()) {
-
             generateGuildConfig(guildID);
-            return loadGuildConfig(guildID);
-
+            return loadGuildConfig(guildID);  // TODO: rework this recursion
         }
         else {
             JSONObject cfg = cfgOptional.get();
