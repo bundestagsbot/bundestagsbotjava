@@ -32,3 +32,10 @@ mvn install exec:java
 ```
 
 or use docker if you are familiar with it.
+Using docker you will need to copy your own config using `docker cp`.
+
+
+## Deployment
+useful env vars:
+- DISCORD_BOT_TOKEN
+- CONFIG_PATH

@@ -8,8 +8,6 @@ RUN mvn -f /app/pom.xml clean package
 
 FROM openjdk:11-jre-slim
 COPY --from=build /app/target/bundestagsbot.jar /bin
-COPY default-config.json config.json* /bin/
-# copy config.json if it exists
 
 WORKDIR /bin
 ENTRYPOINT ["java","-jar","bundestagsbot.jar"]

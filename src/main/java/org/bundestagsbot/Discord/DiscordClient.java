@@ -46,5 +46,4 @@ public class DiscordClient extends ListenerAdapter
             logger.error("Failed to login to Discord.");
         }
     }
-
 }

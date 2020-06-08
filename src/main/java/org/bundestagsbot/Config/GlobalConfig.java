@@ -18,6 +18,7 @@ import java.util.List;
 public class GlobalConfig {
 
     private static final Logger logger = LogManager.getLogger(GlobalConfig.class.getName());
+    private final static String configPath = System.getenv().getOrDefault("CONFIG_PATH", ".") + "/config.json";
     private static JSONObject cfg;
 
 
@@ -51,11 +52,11 @@ public class GlobalConfig {
     public static boolean loadConfig() {
         try {
             logger.info("Loading config.");
-            Object obj = new JSONParser().parse(new FileReader("config.json"));
+            Object obj = new JSONParser().parse(new FileReader(configPath));
             cfg = (JSONObject) obj;
             logger.info("Found " + cfg.keySet().size() + " entries.");
         } catch(IOException | ParseException ex) {
-            ex.printStackTrace();
+            logger.warn("Failed to save global config.json", ex);
             return false;
         }
         return true;
@@ -63,10 +64,10 @@ public class GlobalConfig {
 
     @SuppressWarnings("unchecked")
     public static boolean generateConfig() {
-        logger.info("Generating config.json");
-        File config = new File("./config.json");
+        logger.info("Generating " + configPath);
+        File config = new File(configPath);
         if (config.exists()) {
-            logger.info("config.json already exists.");
+            logger.info(configPath + " already exists.");
             return true;
         }
 
