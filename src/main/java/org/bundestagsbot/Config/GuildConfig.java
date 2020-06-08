@@ -1,5 +1,7 @@
 package org.bundestagsbot.Config;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.bundestagsbot.LocalUtils.ArrayObjectUtil;
 import org.bundestagsbot.LocalUtils.FileSystem;
 import org.json.simple.JSONObject;
@@ -7,12 +9,10 @@ import org.json.simple.JSONObject;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class GuildConfig {
 
-    private final static Logger LOGGER = Logger.getLogger(GuildConfig.class.getName());
+    private static final Logger logger = LogManager.getLogger(GuildConfig.class.getName());
     private final static String configPath = System.getenv().getOrDefault("CONFIG_PATH", ".") + "/guilds/";
     private static Map<String, JSONObject> guildcfgs = new HashMap<>();
 
@@ -30,7 +30,7 @@ public class GuildConfig {
 
     public static Object get(Object key, String guildID) throws NullPointerException{
         if (!getGuildCfg(guildID).containsKey(key)) {
-            LOGGER.warning("Did not find config key \"" + key.toString() + "\". Please update your config.");
+            logger.warn("Did not find config key \"" + key.toString() + "\". Please update your config.");
             return null;
         }
         return getGuildCfg(guildID).get(key);
@@ -54,7 +54,7 @@ public class GuildConfig {
 
     private static JSONObject loadGuildConfig(String guildID) {
 
-        LOGGER.info("Loading config.");
+        logger.info("Loading config.");
         Optional<JSONObject> cfgOptional = FileSystem.loadJson(configPath + guildID + "/config.json");
 
         if(cfgOptional.isEmpty()) {
@@ -65,7 +65,7 @@ public class GuildConfig {
         }
         else {
             JSONObject cfg = cfgOptional.get();
-            LOGGER.info("Found " + cfg.keySet().size() + " entries.");
+            logger.info("Found " + cfg.keySet().size() + " entries.");
             guildcfgs.put(guildID, cfg);
             return cfg;
         }
@@ -73,11 +73,11 @@ public class GuildConfig {
 
     @SuppressWarnings("unchecked")
     public static void generateGuildConfig(String guildID) {
-        LOGGER.info("Generating guild config.json for guild: \"" + guildID + "\".");
+        logger.info("Generating guild config.json for guild: \"" + guildID + "\".");
         //Todo: verify following line
         File config = new File(configPath + guildID + "/config.json");
         if (config.exists()) {
-            LOGGER.info("config.json for the guild ID: \"" + guildID + "\" already exists.");
+            logger.info("config.json for the guild ID: \"" + guildID + "\" already exists.");
             return;
         }
 
@@ -89,7 +89,7 @@ public class GuildConfig {
         try {
             FileSystem.saveJson(configPath + guildID + "/config.json", jsonCFG);
         } catch (IOException ex) {
-            LOGGER.log(Level.WARNING, "Failed to save guild config.json", ex);
+            logger.warn("Failed to save guild config.json", ex);
         }
     }
 }
