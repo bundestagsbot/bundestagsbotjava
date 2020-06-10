@@ -8,6 +8,7 @@ import org.bundestagsbot.Exceptions.CommandExecuteException;
 
 import javax.annotation.Nullable;
 import java.util.HashMap;
+import java.util.Map;
 
 public class CommandHelp implements ICommandExecutor{
     @Override
@@ -40,7 +41,7 @@ public class CommandHelp implements ICommandExecutor{
     @Nullable
     private String getHelpByCommandInvoke(String cmd)
     {
-        HashMap<String, ICommandExecutor> commands = CommandHandler.getCommands();
+        Map<String, ICommandExecutor> commands = CommandHandler.getCommands();
         return commands.get(cmd.strip().toLowerCase()) != null ? commands.get(cmd.strip().toLowerCase()).helpString() : null;
     }
 
