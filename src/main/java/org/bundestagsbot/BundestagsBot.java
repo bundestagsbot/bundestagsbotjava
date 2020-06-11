@@ -2,10 +2,10 @@ package org.bundestagsbot;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.bundestagsbot.Config.GlobalConfig;
-import org.bundestagsbot.Discord.DiscordClient;
-import org.bundestagsbot.Discord.DiscordConnectionHandling;
-import org.bundestagsbot.Meta.About;
+import org.bundestagsbot.config.GlobalConfig;
+import org.bundestagsbot.discord.DiscordClient;
+import org.bundestagsbot.discord.DiscordConnectionHandling;
+import org.bundestagsbot.meta.About;
 
 public class BundestagsBot
 {
