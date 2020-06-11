@@ -1,6 +1,6 @@
 # BundestagsBot
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-2-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 ### Discordbot for community discord of [BestOfBundestag](https://www.youtube.com/channel/UCkN8kMDOekn8uxxxsvwEnow).
@@ -53,6 +53,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <table>
   <tr>
     <td align="center"><a href="https://github.com/Mk-arc"><img src="https://avatars0.githubusercontent.com/u/15717249?v=4" width="100px;" alt=""/><br /><sub><b>Mark</b></sub></a><br /><a href="https://github.com/bundestagsbot/bundestagsbotjava/commits?author=Mk-arc" title="Code">💻</a> <a href="https://github.com/bundestagsbot/bundestagsbotjava/pulls?q=is%3Apr+reviewed-by%3AMk-arc" title="Reviewed Pull Requests">👀</a></td>
+    <td align="center"><a href="http://me.zaanposni.com"><img src="https://avatars0.githubusercontent.com/u/24491035?v=4" width="100px;" alt=""/><br /><sub><b>Yannick</b></sub></a><br /><a href="https://github.com/bundestagsbot/bundestagsbotjava/commits?author=zaanposni" title="Code">💻</a> <a href="#projectManagement-zaanposni" title="Project Management">📆</a> <a href="#infra-zaanposni" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a></td>
   </tr>
 </table>
 
