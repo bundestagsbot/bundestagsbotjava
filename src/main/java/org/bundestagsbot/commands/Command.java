@@ -1,13 +1,11 @@
 package org.bundestagsbot.commands;
 
-import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.entities.MessageChannel;
-import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import org.bundestagsbot.config.GuildConfig;
 import org.bundestagsbot.exceptions.CommandCreationFailedException;
 
+import javax.annotation.Nullable;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -19,25 +17,28 @@ public class Command
     final private String invoke;
     final private List<String> args;
     final private MessageChannel channel;
-    final private Guild guild;
     final private Message message;
+    @Nullable
+    final private Guild guild;
 
     public Command(MessageReceivedEvent event) throws CommandCreationFailedException
     {
         this.author = event.getAuthor();
-        this.channel = event.getChannel();
-        this.guild = event.getGuild();
         this.message = event.getMessage();
+        this.channel = event.getChannel();
+
+        if (event.getChannelType() == ChannelType.GROUP || event.getChannelType() == ChannelType.PRIVATE) {
+            this.guild = null;
+            this.prefix = "_";  // TODO: use default command prefix from global config
+        } else {
+            this.guild = event.getGuild();
+            this.prefix = (String) GuildConfig.get("command_prefix", "_", this.guild.getId());
+        }
 
         String messageContent = event.getMessage().getContentRaw();
-
-        this.prefix = (String) GuildConfig.get("command_prefix", "_", this.guild.getId());
-
         if (messageContent.isEmpty() || !messageContent.startsWith(prefix) || messageContent.equals(prefix))
         {
-            this.args = Collections.emptyList();
-            this.invoke = "";
-            return;
+            throw new CommandCreationFailedException("No valid command invoked.");
         }
 
         this.args = Arrays.asList(messageContent.split(" +"));
@@ -75,6 +76,7 @@ public class Command
         return channel;
     }
 
+    @Nullable
     public Guild getGuild()
     {
         return guild;
