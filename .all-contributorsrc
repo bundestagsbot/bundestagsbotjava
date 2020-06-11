@@ -1,0 +1,24 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "Mk-arc",
+      "name": "Mark",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/15717249?v=4",
+      "profile": "https://github.com/Mk-arc",
+      "contributions": [
+        "code"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "projectName": "bundestagsbotjava",
+  "projectOwner": "bundestagsbot",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "skipCi": true
+}
