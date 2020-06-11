@@ -2,49 +2,48 @@ package org.bundestagsbot.Internals.Surveys.DawumJsonMapper;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.util.Collection;
 import java.util.Map;
 
-public class Survey
-{
+public class Survey {
     @JsonProperty("Date")
     private String date;
     @JsonProperty("Survey_Period")
-    private Map<String, String> survey_period;
+    private Map<String, String> surveyPeriod;
     @JsonProperty("Surveyed_Persons")
-    private String surveyed_persons;
+    private String surveyedPersons;
+    @JsonProperty("Parliament_ID")
+    private String parliamentId;
+    @JsonProperty("Tasker_ID")
+    private String taskerId;
+    @JsonProperty("Results")
+    private Map<String, Integer> results;
+    @JsonProperty("Institute_ID")
+    private String instituteId;
 
-    public String getDate()
-    {
+    public String getInstituteId() { return instituteId; }
+
+    public String getDate() {
         return date;
     }
 
-    public Map<String, String> getSurvey_period()
-    {
-        return survey_period;
+    public Map<String, String> getSurveyPeriod() {
+        return surveyPeriod;
     }
 
-    public String getSurveyed_persons()
-    {
-        return surveyed_persons;
+    public String getSurveyedPersons() {
+        return surveyedPersons;
     }
 
-    public String getParliament_id()
-    {
-        return parliament_id;
+    public String getParliamentId() {
+        return parliamentId;
     }
 
-    public String getTasker_id()
-    {
-        return tasker_id;
+    public String getTaskerId() {
+        return taskerId;
     }
 
-    public Collection<Integer> getResults()
-    {
+    public Map<String, Integer> getResults() {
         return results;
     }
 
-    private String parliament_id;
-    private String tasker_id;
-    private Collection<Integer> results;
 }
