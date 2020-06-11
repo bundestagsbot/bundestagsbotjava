@@ -4,6 +4,8 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.bundestagsbot.Embeds.ErrorLogEmbed;
 import org.bundestagsbot.Embeds.NeutralLogEmbed;
 import org.bundestagsbot.Exceptions.CommandExecuteException;
@@ -15,6 +17,8 @@ import java.io.IOException;
 import java.util.*;
 
 public class CommandSurvey implements ICommandExecutor{
+
+    private static final Logger logger = LogManager.getLogger(CommandSurvey.class.getName());
     @Override
     public void onExecute(Command cmd, JDA jda) throws CommandExecuteException {
         RootDawumJson response;
@@ -41,7 +45,7 @@ public class CommandSurvey implements ICommandExecutor{
             // if parliament id is not in api response then something is very wrong
             if (parliamentId.equals("0"))
             {
-                LOGGER.severe("Got an invalid syntax. Perhaps the API is not available or deprecated.");
+                logger.error("Got an invalid syntax. Perhaps the API is not available or deprecated.");
                 EmbedBuilder error = new ErrorLogEmbed();
                 error.setDescription("**Error**\nGot an invalid syntax. Perhaps the API is not available or deprecated.");
                 cmd.getChannel().sendMessage(error.build()).queue();
