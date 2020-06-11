@@ -7,9 +7,9 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.bundestagsbot.commands.impl.CommandAbout;
-import org.bundestagsbot.commands.impl.CommandHelp;
-import org.bundestagsbot.commands.impl.CommandSurvey;
+import org.bundestagsbot.commands.impl.ACommandExecutor;
+import org.bundestagsbot.commands.impl.ECommandExecutor;
+import org.bundestagsbot.commands.impl.ICommandExecutor;
 import org.bundestagsbot.embeds.ErrorLogEmbed;
 import org.bundestagsbot.exceptions.CommandCreationFailedException;
 import org.bundestagsbot.exceptions.CommandExecuteException;
@@ -21,29 +21,40 @@ public class CommandHandler extends ListenerAdapter
 {
     private static final Logger logger = LogManager.getLogger(CommandHandler.class.getName());
     // register commands here
-    private static final Map<String, ICommandExecutor> commands = new HashMap<>()
-    {{
-        put("about", new CommandAbout());
-        put("survey", new CommandSurvey());
-        put("help", new CommandHelp());
-    }};
 
-    public static Map<String, ICommandExecutor> getCommands()
+    private final Map<String, ICommandExecutor> commands = new HashMap<>();
+
+    public Map<String, ICommandExecutor> getCommands()
     {
         return commands;
     }
 
-    private static boolean validateMessage(MessageReceivedEvent event)
+    public CommandHandler()
+    {
+        for (ECommandExecutor executor : ECommandExecutor.values())
+        {
+            try
+            {
+                ACommandExecutor cmdEx = (ACommandExecutor) executor.getInstanceableClass().newDefaultInstance();
+                cmdEx.setParent(this);
+                commands.put(executor.toString().toLowerCase(), cmdEx);
+            } catch (Exception e)
+            {
+                logger.error("Could not create instance of Task: " + executor.toString());
+            }
+        }
+    }
+
+    private boolean validateMessage(MessageReceivedEvent event)
     {
         if (event.getAuthor() == event.getJDA().getSelfUser())
             return false;
 
         // TODO: handle per guild config for bot command channel
-
         return event.getMessage().getType() == MessageType.DEFAULT && (event.getChannelType() == ChannelType.TEXT || event.getChannelType() == ChannelType.PRIVATE);
     }
 
-    public static void handle(MessageReceivedEvent event) throws CommandExecuteException
+    public void handle(MessageReceivedEvent event) throws CommandExecuteException
     {
         if (!validateMessage(event))
         {

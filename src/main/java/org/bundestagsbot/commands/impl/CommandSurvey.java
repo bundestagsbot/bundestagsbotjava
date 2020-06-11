@@ -7,27 +7,33 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.bundestagsbot.commands.Command;
-import org.bundestagsbot.commands.ICommandExecutor;
 import org.bundestagsbot.embeds.ErrorLogEmbed;
 import org.bundestagsbot.embeds.NeutralLogEmbed;
 import org.bundestagsbot.exceptions.CommandExecuteException;
+import org.bundestagsbot.internals.surveys.SurveyRequester;
 import org.bundestagsbot.internals.surveys.dawumjsonmapper.RootDawumJson;
 import org.bundestagsbot.internals.surveys.dawumjsonmapper.Survey;
-import org.bundestagsbot.internals.surveys.SurveyRequester;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
 
-public class CommandSurvey implements ICommandExecutor
+public class CommandSurvey extends ACommandExecutor
 {
 
     private static final Logger logger = LogManager.getLogger(CommandSurvey.class.getName());
+
     @Override
-    public void onExecute(Command cmd, JDA jda) throws CommandExecuteException {
+    public void onExecute(Command cmd, JDA jda) throws CommandExecuteException
+    {
         RootDawumJson response;
-        try {
+        try
+        {
             response = SurveyRequester.getAPIResponse();
-        } catch (IOException e) {
+        } catch (IOException e)
+        {
             EmbedBuilder error = new ErrorLogEmbed();
             error.setDescription("**Error**:\nCannot fetch from Dawum API.\nPlease try again later.");
             cmd.getChannel().sendMessage(error.build()).queue();
@@ -56,22 +62,25 @@ public class CommandSurvey implements ICommandExecutor
             }
             parliamentId = "0";  // defaulting to bundestag
         }
-        
+
         List<String> surveyKeys = new ArrayList<>(response.getSurveyMap().keySet());
         // https://stackoverflow.com/a/13973660/9850709
-        surveyKeys.sort(new Comparator<>() {
-            public int compare(String o1, String o2) {
+        surveyKeys.sort(new Comparator<>()
+        {
+            public int compare(String o1, String o2)
+            {
                 return extractInt(o2) - extractInt(o1);
             }
 
-            private int extractInt(String s) {
+            private int extractInt(String s)
+            {
                 String num = s.replaceAll("\\D", "");
                 // return 0 if no digits found
                 return num.isEmpty() ? 0 : Integer.parseInt(num);
             }
         });
 
-        for(String surveyKey: surveyKeys)
+        for (String surveyKey : surveyKeys)
         {
             if (response.getSurvey(surveyKey).getParliamentId().equals(parliamentId))
             {
@@ -82,7 +91,8 @@ public class CommandSurvey implements ICommandExecutor
         throw new CommandExecuteException("No survey found for parliament \"" + parliamentId + "\".");
     }
 
-    private MessageEmbed generateEmbed(RootDawumJson response, String parliamentId, String surveyKey) {
+    private MessageEmbed generateEmbed(RootDawumJson response, String parliamentId, String surveyKey)
+    {
         EmbedBuilder info = new NeutralLogEmbed();
         Survey matchedSurvey = response.getSurvey(surveyKey);
         info.setDescription("**Election**: " + response.getParliament(parliamentId).getElection() + "\n" +
@@ -98,7 +108,14 @@ public class CommandSurvey implements ICommandExecutor
     }
 
     @Override
-    public String helpString() {
+    public String getDescription()
+    {
+        return "Generates surveys";
+    }
+
+    @Override
+    public String getHelpText()
+    {
         return "Usage:\n" +
                 "survey <parliament_id>\n\n" +
                 "e.g. \"0\" is the Bundestag.\n" +
