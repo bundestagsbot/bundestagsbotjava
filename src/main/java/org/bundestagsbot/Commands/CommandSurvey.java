@@ -2,19 +2,17 @@ package org.bundestagsbot.Commands;
 
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.entities.MessageEmbed;
 import org.apache.commons.lang.StringUtils;
 import org.bundestagsbot.Embeds.ErrorLogEmbed;
 import org.bundestagsbot.Embeds.NeutralLogEmbed;
-import org.bundestagsbot.Embeds.WarningLogEmbed;
 import org.bundestagsbot.Exceptions.CommandExecuteException;
-import org.bundestagsbot.Internals.Surveys.DawumJsonMapper.Parliament;
 import org.bundestagsbot.Internals.Surveys.DawumJsonMapper.RootDawumJson;
 import org.bundestagsbot.Internals.Surveys.DawumJsonMapper.Survey;
 import org.bundestagsbot.Internals.Surveys.SurveyRequester;
 
 import java.io.IOException;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class CommandSurvey implements ICommandExecutor{
     @Override
@@ -28,6 +26,7 @@ public class CommandSurvey implements ICommandExecutor{
             cmd.getChannel().sendMessage(error.build()).queue();
             throw new CommandExecuteException("Cannot fetch from Dawum API.\nPlease try again later.", e);
         }
+
         String parliamentId = "0";  // defaults to bundestag
         if (cmd.getArgs().size() > 1)
         {
@@ -36,6 +35,7 @@ public class CommandSurvey implements ICommandExecutor{
                 parliamentId = cmd.getArgs().get(1);
             }
         }
+
         if (!response.getParliamentMap().containsKey(parliamentId))
         {
             // if parliament id is not in api response then something is very wrong
@@ -49,17 +49,15 @@ public class CommandSurvey implements ICommandExecutor{
             }
             parliamentId = "0";  // defaulting to bundestag
         }
-
-        EmbedBuilder info = new NeutralLogEmbed();
-
-        ArrayList<String> surveyKeys = new ArrayList<String>(response.getSurveyMap().keySet());
+        
+        List<String> surveyKeys = new ArrayList<>(response.getSurveyMap().keySet());
         // https://stackoverflow.com/a/13973660/9850709
-        surveyKeys.sort(new Comparator<String>() {
+        surveyKeys.sort(new Comparator<>() {
             public int compare(String o1, String o2) {
                 return extractInt(o2) - extractInt(o1);
             }
 
-            int extractInt(String s) {
+            private int extractInt(String s) {
                 String num = s.replaceAll("\\D", "");
                 // return 0 if no digits found
                 return num.isEmpty() ? 0 : Integer.parseInt(num);
@@ -70,20 +68,26 @@ public class CommandSurvey implements ICommandExecutor{
         {
             if (response.getSurvey(surveyKey).getParliamentId().equals(parliamentId))
             {
-                Survey matchedSurvey = response.getSurvey(surveyKey);
-                info.setDescription("**Election**: " + response.getParliament(parliamentId).getElection() + "\n" +
-                        "**Survey by**: " + response.getInstitute(matchedSurvey.getInstituteId()).getName() + "\n" +
-                        "**Survey issued by**: " + response.getTasker(matchedSurvey.getTaskerId()).getName());
-                info.setFooter("Survey date: " + matchedSurvey.getDate());
-
-                for (Map.Entry<String, Integer> entry : matchedSurvey.getResults().entrySet())
-                {
-                    info.addField(response.getParty(entry.getKey()).getName(), entry.getValue().toString() + "%", false);
-                }
-                break;
+                cmd.getChannel().sendMessage(generateEmbed(response, parliamentId, surveyKey)).queue();
+                return;
             }
         }
-        cmd.getChannel().sendMessage(info.build()).queue();
+        throw new CommandExecuteException("No survey found for parliament \"" + parliamentId + "\".");
+    }
+
+    private MessageEmbed generateEmbed(RootDawumJson response, String parliamentId, String surveyKey) {
+        EmbedBuilder info = new NeutralLogEmbed();
+        Survey matchedSurvey = response.getSurvey(surveyKey);
+        info.setDescription("**Election**: " + response.getParliament(parliamentId).getElection() + "\n" +
+                "**Survey by**: " + response.getInstitute(matchedSurvey.getInstituteId()).getName() + "\n" +
+                "**Survey issued by**: " + response.getTasker(matchedSurvey.getTaskerId()).getName());
+        info.setFooter("Survey date: " + matchedSurvey.getDate());
+
+        for (Map.Entry<String, Integer> entry : matchedSurvey.getResults().entrySet())
+        {
+            info.addField(response.getParty(entry.getKey()).getName(), entry.getValue().toString() + "%", false);
+        }
+        return info.build();
     }
 
     @Override
