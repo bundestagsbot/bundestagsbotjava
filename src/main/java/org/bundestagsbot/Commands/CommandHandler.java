@@ -6,6 +6,8 @@ import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageType;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.bundestagsbot.Embeds.ErrorLogEmbed;
 import org.bundestagsbot.Exceptions.CommandCreationFailedException;
 import org.bundestagsbot.Exceptions.CommandExecuteException;
@@ -13,14 +15,14 @@ import org.bundestagsbot.Exceptions.CommandExecuteException;
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.logging.Logger;
 
 public class CommandHandler extends ListenerAdapter {
-    private final static Logger LOGGER = Logger.getLogger(CommandHandler.class.getName());
+    private static final Logger logger = LogManager.getLogger(CommandHandler.class.getName());
     // register commands here
     private static final HashMap<String, ICommandExecutor> commands = new HashMap<String, ICommandExecutor>() {{
         put("about", new CommandAbout());
         put("survey", new CommandSurvey());
+        put("help", new CommandHelp());
     }};
 
     public static HashMap<String, ICommandExecutor> getCommands() { return commands; }
@@ -54,11 +56,11 @@ public class CommandHandler extends ListenerAdapter {
         if (commands.containsKey(cmd.getInvoke())) {
             ICommandExecutor ex = commands.get(cmd.getInvoke());
             try {
-                LOGGER.info(cmd.getAuthor().getAsTag() + " issued " + cmd.getPrefix() + cmd.getInvoke());
+                logger.info(cmd.getAuthor().getAsTag() + " issued " + cmd.getPrefix() + cmd.getInvoke());
                 ex.onExecute(cmd, event.getJDA());
             } catch (CommandExecuteException cmdEx)
             {
-                LOGGER.warning("Failed to execute command \"" + cmd.getPrefix() + cmd.getInvoke() + "\", error got handled:");
+                logger.warn("Failed to execute command \"" + cmd.getPrefix() + cmd.getInvoke() + "\", error got handled:");
                 cmdEx.printStackTrace();
             } catch (Exception defaultEx) {
                 EmbedBuilder error = new ErrorLogEmbed();
