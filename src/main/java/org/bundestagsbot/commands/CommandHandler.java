@@ -72,6 +72,12 @@ public class CommandHandler extends ListenerAdapter
         if (commands.containsKey(cmd.getInvoke()))
         {
             ICommandExecutor ex = commands.get(cmd.getInvoke());
+            if (!ex.userHasPermission(cmd, event.getJDA())) {
+                ErrorLogEmbed errorLogEmbed = new ErrorLogEmbed();
+                errorLogEmbed.setDescription("You do not have the needed permission for this command.");
+                event.getChannel().sendMessage(errorLogEmbed.build()).queue();
+                return;
+            }
             try
             {
                 logger.info(cmd.getAuthor().getAsTag() + " issued " + cmd.getPrefix() + cmd.getInvoke());

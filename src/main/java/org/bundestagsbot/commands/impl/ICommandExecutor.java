@@ -11,4 +11,6 @@ public interface ICommandExecutor
     String getDescription();
 
     String getHelpText();
+
+    boolean userHasPermission(Command cmd, JDA jda);
 }

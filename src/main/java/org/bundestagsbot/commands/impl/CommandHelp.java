@@ -77,4 +77,9 @@ public class CommandHelp extends ACommandExecutor
     {
         return "Prints this help text";
     }
+
+    @Override
+    public boolean userHasPermission(Command cmd, JDA jda) {
+        return true;  // all users should be able to use this command
+    }
 }

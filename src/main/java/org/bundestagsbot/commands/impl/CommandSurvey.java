@@ -121,4 +121,9 @@ public class CommandSurvey extends ACommandExecutor
                 "e.g. \"0\" is the Bundestag.\n" +
                 "This returns the newest survey | \"Sonntagsfrage\".";
     }
+
+    @Override
+    public boolean userHasPermission(Command cmd, JDA jda) {
+        return true;  // all users should be able to use this command
+    }
 }

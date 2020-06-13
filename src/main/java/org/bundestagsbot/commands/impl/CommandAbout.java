@@ -28,4 +28,9 @@ public class CommandAbout extends ACommandExecutor
     {
         return "This gives information about the bot version and other stuff.";
     }
+
+    @Override
+    public boolean userHasPermission(Command cmd, JDA jda) {
+        return true;  // all users should be able to use this command
+    }
 }

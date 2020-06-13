@@ -44,4 +44,9 @@ public class CommandPost extends ACommandExecutor{
                 "Post an embed in a specified channel.\n" +
                 "Bot needs to have write access";
     }
+
+    @Override
+    public boolean userHasPermission(Command cmd, JDA jda) {
+        return true;  // TODO: integrate permission system (#3)
+    }
 }
