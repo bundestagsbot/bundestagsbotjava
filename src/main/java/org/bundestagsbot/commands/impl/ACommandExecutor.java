@@ -23,6 +23,7 @@ public abstract class ACommandExecutor implements ICommandExecutor
 
     private final List<ChannelType> allowedChannelTypes = new ArrayList<>();
 
+    @Override
     public List<ChannelType> getAllowedChannelTypes() { return allowedChannelTypes; }
 
     protected ACommandExecutor(ChannelType... channels) {
