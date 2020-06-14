@@ -18,7 +18,7 @@ public class Command
     final private List<String> args;
     final private MessageChannel channel;
     final private Message message;
-    final private Optional<Guild> guild;
+    final private Guild guild;
 
     public Command(MessageReceivedEvent event) throws CommandCreationFailedException
     {
@@ -27,10 +27,10 @@ public class Command
         this.message = event.getMessage();
 
         if (!ChannelType.PRIVATE.equals(event.getChannelType())) {
-            this.guild = Optional.of(event.getGuild());
-            this.prefix = (String) GuildConfig.get("command_prefix", "_", this.guild.get().getId());
+            this.guild = event.getGuild();
+            this.prefix = GuildConfig.get("command_prefix", "_", event.getGuild().getId()).toString();
         } else {
-            this.guild = Optional.empty();
+            this.guild = null;
             this.prefix = "_";  // TODO: default prefix from global config
         }
 
@@ -81,7 +81,7 @@ public class Command
 
     public Optional<Guild> getGuild()
     {
-        return guild;
+        return Optional.ofNullable(guild);
     }
 
     public Message getMessage()
