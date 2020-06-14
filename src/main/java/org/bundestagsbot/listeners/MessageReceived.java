@@ -24,12 +24,6 @@ public class MessageReceived extends ListenerAdapter
         if (event.getAuthor() == event.getJDA().getSelfUser())
             return; // do not log self
 
-        try
-        {
-            handler.handle(event);
-        } catch (CommandExecuteException e)
-        {
-            logger.warn(e);
-        }
+        handler.handle(event);
     }
 }
