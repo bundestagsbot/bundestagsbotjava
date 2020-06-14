@@ -16,6 +16,7 @@ import org.bundestagsbot.exceptions.CommandExecuteException;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class CommandHandler extends ListenerAdapter
 {
@@ -54,7 +55,7 @@ public class CommandHandler extends ListenerAdapter
         return event.getMessage().getType() == MessageType.DEFAULT && (event.getChannelType() == ChannelType.TEXT || event.getChannelType() == ChannelType.PRIVATE);
     }
 
-    public void handle(MessageReceivedEvent event) throws CommandExecuteException
+    public void handle(MessageReceivedEvent event)
     {
         if (!validateMessage(event))
         {
@@ -72,20 +73,24 @@ public class CommandHandler extends ListenerAdapter
         if (commands.containsKey(cmd.getInvoke()))
         {
             ICommandExecutor ex = commands.get(cmd.getInvoke());
+            if (!ex.getAllowedChannelTypes().isEmpty() && !ex.getAllowedChannelTypes().contains(event.getChannelType())) {
+                ErrorLogEmbed errorLogEmbed = new ErrorLogEmbed();
+                errorLogEmbed.setDescription("This command is only useable in:\n\n" +
+                        ex.getAllowedChannelTypes().stream().map(ChannelType::toString)
+                                .collect(Collectors.joining("\n")));
+                event.getChannel().sendMessage(errorLogEmbed.build()).queue();
+                return;
+            }
             try
             {
                 logger.info(cmd.getAuthor().getAsTag() + " issued " + cmd.getPrefix() + cmd.getInvoke());
                 ex.onExecute(cmd, event.getJDA());
-            } catch (CommandExecuteException cmdEx)
-            {
-                logger.warn("Failed to execute command \"" + cmd.getPrefix() + cmd.getInvoke() + "\", error got handled:");
-                cmdEx.printStackTrace();
-            } catch (Exception defaultEx)
+            } catch (Exception exc)
             {
                 EmbedBuilder error = new ErrorLogEmbed();
                 error.setDescription("**Error**:\nSomething went wrong.");
                 event.getChannel().sendMessage(error.build()).queue();
-                throw new CommandExecuteException("Failed to execute command " + cmd.getInvoke(), defaultEx);
+                logger.warn("Failed to execute command \"" + cmd.getPrefix() + cmd.getInvoke() + "\".", exc);
             }
         }
     }

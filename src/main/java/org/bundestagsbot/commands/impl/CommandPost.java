@@ -1,6 +1,7 @@
 package org.bundestagsbot.commands.impl;
 
 import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.entities.TextChannel;
 import org.bundestagsbot.commands.Command;
 import org.bundestagsbot.embeds.ErrorLogEmbed;
@@ -8,6 +9,11 @@ import org.bundestagsbot.embeds.NeutralLogEmbed;
 import org.bundestagsbot.exceptions.CommandExecuteException;
 
 public class CommandPost extends ACommandExecutor{
+
+    public CommandPost() {
+        super(ChannelType.TEXT);
+    }
+
     @Override
     public void onExecute(Command cmd, JDA jda) throws CommandExecuteException {
         if (cmd.getArgs().size() < 3) {
