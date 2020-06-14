@@ -64,7 +64,9 @@ public class CommandHelp extends ACommandExecutor
                 "Available commands: \n");
         for (Map.Entry<String, ICommandExecutor> executor : getParent().getCommands().entrySet())
         {
-            builder.append(executor.getKey())
+            builder.append("**")
+                    .append(executor.getKey())
+                    .append("**")
                     .append(": ")
                     .append(executor.getValue().getDescription())
                     .append("\n");
