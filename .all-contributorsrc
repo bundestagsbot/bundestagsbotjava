@@ -1,0 +1,36 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "Mk-arc",
+      "name": "Mark",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/15717249?v=4",
+      "profile": "https://github.com/Mk-arc",
+      "contributions": [
+        "code",
+        "review"
+      ]
+    },
+    {
+      "login": "zaanposni",
+      "name": "Yannick",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/24491035?v=4",
+      "profile": "http://me.zaanposni.com",
+      "contributions": [
+        "code",
+        "projectManagement",
+        "infra"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "projectName": "bundestagsbotjava",
+  "projectOwner": "bundestagsbot",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "skipCi": true
+}
