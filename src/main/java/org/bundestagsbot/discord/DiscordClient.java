@@ -23,7 +23,7 @@ public class DiscordClient extends ListenerAdapter
 
     public DiscordClient() {
         // Initialize
-        String token = GlobalConfigSingleton.getConfig().getDiscordBotToken();
+        String token = GlobalConfigSingleton.getInstance().getConfig().getDiscordBotToken();
         if ("bot_token_goes_here".equals(token))
         {
             logger.error("Please update your config.json");

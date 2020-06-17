@@ -29,11 +29,11 @@ public class Command
 
         if (!ChannelType.PRIVATE.equals(event.getChannelType())) {
             this.guild = event.getGuild();
-            String definedPrefix = GuildConfigSingleton.getConfig(event.getGuild().getId()).getCommandPrefix();
-            this.prefix = definedPrefix == null ? GlobalConfigSingleton.getConfig().getDefaultPrefix() : definedPrefix;
+            String definedPrefix = GuildConfigSingleton.getInstance().getConfig(event.getGuild().getId()).getCommandPrefix();
+            this.prefix = definedPrefix == null ? GlobalConfigSingleton.getInstance().getConfig().getDefaultPrefix() : definedPrefix;
         } else {
             this.guild = null;
-            this.prefix = GlobalConfigSingleton.getConfig().getDefaultPrefix();
+            this.prefix = GlobalConfigSingleton.getInstance().getConfig().getDefaultPrefix();
         }
 
         String messageContent = event.getMessage().getContentRaw();

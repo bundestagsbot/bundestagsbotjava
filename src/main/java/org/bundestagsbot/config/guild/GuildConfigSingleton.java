@@ -14,9 +14,9 @@ public class GuildConfigSingleton {
     private static GuildConfigSingleton instance = null;
     private Map<String, GuildConfig> guildConfigMap = new HashMap<>();
 
-    public GuildConfigSingleton() { }
+    private GuildConfigSingleton() { }
 
-    public GuildConfigSingleton(List<String> knownGuilds) {
+    private GuildConfigSingleton(List<String> knownGuilds) {
         for (String guildId : knownGuilds ) {
             try {
                 guildConfigMap.put(guildId, new GuildConfig(guildId));
@@ -48,14 +48,14 @@ public class GuildConfigSingleton {
         return guildConfigMap;
     }
 
-    public static GuildConfigJson getConfig(String guildId) {
-        if (!getInstance().getGuildConfigMap().containsKey(guildId)) {
+    public GuildConfigJson getConfig(String guildId) {
+        if (getGuildConfigMap().containsKey(guildId)) {
             try {
-                getInstance().getGuildConfigMap().put(guildId, new GuildConfig(guildId));
+                getGuildConfigMap().put(guildId, new GuildConfig(guildId));
             } catch (IOException ex) {
                 logger.warn("Failed to load config.", ex);
             }
         }
-        return getInstance().getGuildConfigMap().get(guildId).getConfig();
+        return getGuildConfigMap().get(guildId).getConfig();
     }
 }

@@ -7,7 +7,7 @@ public class GlobalConfigSingleton {
     private static GlobalConfigSingleton instance = null;
     private GlobalConfig globalConfig;
 
-    public GlobalConfigSingleton() throws ConfigInvalidException {
+    private GlobalConfigSingleton() throws ConfigInvalidException {
         try {
             globalConfig = new GlobalConfig();
         }
@@ -29,7 +29,5 @@ public class GlobalConfigSingleton {
         return instance;
     }
 
-    public static GlobalConfigJson getConfig() {
-        return getInstance().getGlobalConfig().getConfig();
-    }
+    public GlobalConfigJson getConfig() { return getGlobalConfig().getConfig(); }
 }

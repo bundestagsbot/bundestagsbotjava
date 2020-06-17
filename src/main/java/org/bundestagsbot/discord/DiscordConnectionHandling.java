@@ -29,7 +29,7 @@ public class DiscordConnectionHandling extends ListenerAdapter {
     public void onReady(@Nonnull ReadyEvent event) {
         logger.info("Bot connected to Discord API.");
         connected = true;
-        Object activity = GlobalConfigSingleton.getConfig().getActivityString();
+        Object activity = GlobalConfigSingleton.getInstance().getConfig().getActivityString();
         if (activity != null) {
             event.getJDA().getPresence().setActivity(Activity.playing(activity.toString()));
         }
