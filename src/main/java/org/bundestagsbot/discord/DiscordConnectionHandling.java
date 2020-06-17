@@ -35,7 +35,7 @@ public class DiscordConnectionHandling extends ListenerAdapter {
         }
         logger.debug("Loading guild configs for already joined guilds.");
         List<String> knownGuildIds = event.getJDA().getGuilds().stream().map(Guild::getId).collect(Collectors.toList());
-        GuildConfigSingleton.configureInstance(knownGuildIds);
+        GuildConfigSingleton.getInstance().configureInstance(knownGuildIds);
     }
 
     @Override

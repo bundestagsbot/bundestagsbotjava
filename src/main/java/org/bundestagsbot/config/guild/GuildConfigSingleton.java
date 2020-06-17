@@ -34,10 +34,10 @@ public class GuildConfigSingleton {
         return instance;
     }
 
-    public static void configureInstance(List<String> knownGuilds) {
+    public void configureInstance(List<String> knownGuilds) {
         for (String guildId : knownGuilds) {
             try {
-                getInstance().getGuildConfigMap().put(guildId, new GuildConfig(guildId));
+                getGuildConfigMap().put(guildId, new GuildConfig(guildId));
             } catch (IOException ex) {
                 logger.warn("Failed to load config.", ex);
             }
