@@ -2,7 +2,8 @@ package org.bundestagsbot.commands;
 
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
-import org.bundestagsbot.config.GuildConfig;
+import org.bundestagsbot.config.global.GlobalConfigSingleton;
+import org.bundestagsbot.config.guild.GuildConfigSingleton;
 import org.bundestagsbot.exceptions.CommandCreationFailedException;
 
 import java.util.Arrays;
@@ -28,10 +29,11 @@ public class Command
 
         if (!ChannelType.PRIVATE.equals(event.getChannelType())) {
             this.guild = event.getGuild();
-            this.prefix = GuildConfig.get("command_prefix", "_", event.getGuild().getId()).toString();
+            String definedPrefix = GuildConfigSingleton.getConfig(event.getGuild().getId()).getCommandPrefix();
+            this.prefix = definedPrefix == null ? GlobalConfigSingleton.getConfig().getDefaultPrefix() : definedPrefix;
         } else {
             this.guild = null;
-            this.prefix = "_";  // TODO: default prefix from global config
+            this.prefix = GlobalConfigSingleton.getConfig().getDefaultPrefix();
         }
 
         String messageContent = event.getMessage().getContentRaw();
