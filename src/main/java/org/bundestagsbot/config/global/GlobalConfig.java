@@ -11,7 +11,7 @@ import java.io.IOException;
 
 public class GlobalConfig {
     private static final Logger logger = LogManager.getLogger(GlobalConfig.class.getName());
-    private final static String configPath = System.getenv().getOrDefault("CONFIG_BASE_PATH", ".") + "/config.json";
+    private static final String configPath = System.getenv().getOrDefault("CONFIG_BASE_PATH", ".") + "/config.json";
     private GlobalConfigJson globalConfigJson;
 
     public GlobalConfig() throws IOException {
