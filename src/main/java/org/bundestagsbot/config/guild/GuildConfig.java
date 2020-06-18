@@ -11,7 +11,7 @@ import java.io.File;
 import java.io.IOException;
 
 public class GuildConfig {
-    private final static String configBasePath = System.getenv().getOrDefault("CONFIG_BASE_PATH", ".") + "/guilds/";
+    private static final String configBasePath = System.getenv().getOrDefault("CONFIG_BASE_PATH", ".") + "/guilds/";
     private GuildConfigJson guildConfigJson;
 
     public GuildConfig(String guildId) throws IOException {
