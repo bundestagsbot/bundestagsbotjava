@@ -10,4 +10,4 @@ FROM openjdk:11-jre-slim
 COPY --from=build /app/target/ /app/bin/
 
 WORKDIR /app/bin
-ENTRYPOINT ["java","-jar","bundestagsbot.jar"]
+ENTRYPOINT ["java","-jar","bundestagsbot-jar-with-dependencies.jar"]
