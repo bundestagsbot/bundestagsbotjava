@@ -1,16 +1,20 @@
 package org.bundestagsbot.discord;
 
+import net.dv8tion.jda.api.entities.Guild;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.bundestagsbot.config.GlobalConfig;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.events.DisconnectEvent;
 import net.dv8tion.jda.api.events.ReadyEvent;
 import net.dv8tion.jda.api.events.ReconnectedEvent;
 import net.dv8tion.jda.api.events.ResumedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import org.bundestagsbot.config.global.GlobalConfigSingleton;
+import org.bundestagsbot.config.guild.GuildConfigSingleton;
 
 import javax.annotation.Nonnull;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class DiscordConnectionHandling extends ListenerAdapter {
 
@@ -25,10 +29,13 @@ public class DiscordConnectionHandling extends ListenerAdapter {
     public void onReady(@Nonnull ReadyEvent event) {
         logger.info("Bot connected to Discord API.");
         connected = true;
-        Object activity = GlobalConfig.get("activity_string");
+        Object activity = GlobalConfigSingleton.getInstance().getConfig().getActivityString();
         if (activity != null) {
             event.getJDA().getPresence().setActivity(Activity.playing(activity.toString()));
         }
+        logger.debug("Loading guild configs for already joined guilds.");
+        List<String> knownGuildIds = event.getJDA().getGuilds().stream().map(Guild::getId).collect(Collectors.toList());
+        GuildConfigSingleton.getInstance().configureInstance(knownGuildIds);
     }
 
     @Override
