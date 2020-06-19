@@ -2,7 +2,7 @@ package org.bundestagsbot;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.bundestagsbot.config.global.GlobalConfigSingleton;
+import org.bundestagsbot.config.BotConfigSingleton;
 import org.bundestagsbot.discord.DiscordClient;
 import org.bundestagsbot.discord.DiscordConnectionHandling;
 import org.bundestagsbot.meta.About;
@@ -22,8 +22,8 @@ public class BundestagsBot
         logger.info(About.getInfo());
 
         logger.debug("Initialize config.");
-        GlobalConfigSingleton globalConfigSingleton = GlobalConfigSingleton.getInstance();
-        if (globalConfigSingleton != null ) {
+        BotConfigSingleton botConfigSingleton = BotConfigSingleton.getInstance();
+        if (botConfigSingleton != null ) {
             logger.info("Successfully loaded global config.");
         } else {
             logger.error("Initializing global config failed" +

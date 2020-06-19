@@ -1,24 +1,24 @@
-package org.bundestagsbot.config.global;
+package org.bundestagsbot.config;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.bundestagsbot.config.global.jsonmap.GlobalConfigJson;
+import org.bundestagsbot.config.jsonmap.BotConfigJson;
 
 import java.io.File;
 import java.io.IOException;
 
-public class GlobalConfig {
-    private static final Logger logger = LogManager.getLogger(GlobalConfig.class.getName());
+public class BotConfig {
+    private static final Logger logger = LogManager.getLogger(BotConfig.class.getName());
     private static final String configPath = System.getenv().getOrDefault("CONFIG_BASE_PATH", ".") + "/config.json";
-    private GlobalConfigJson globalConfigJson;
+    private BotConfigJson botConfigJson;
 
-    public GlobalConfig() throws IOException {
+    public BotConfig() throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        globalConfigJson = objectMapper.readValue(new File(configPath), GlobalConfigJson.class);
+        botConfigJson = objectMapper.readValue(new File(configPath), BotConfigJson.class);
     }
 
-    public GlobalConfigJson getConfig() { return globalConfigJson; }
+    public BotConfigJson getConfig() { return botConfigJson; }
 }

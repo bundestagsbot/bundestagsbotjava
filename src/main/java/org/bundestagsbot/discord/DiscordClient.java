@@ -6,7 +6,7 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.bundestagsbot.config.global.GlobalConfigSingleton;
+import org.bundestagsbot.config.BotConfigSingleton;
 import org.bundestagsbot.listeners.MessageReceived;
 
 import javax.security.auth.login.LoginException;
@@ -23,7 +23,7 @@ public class DiscordClient extends ListenerAdapter
 
     public DiscordClient() {
         // Initialize
-        String token = GlobalConfigSingleton.getInstance().getConfig().getDiscordBotToken();
+        String token = BotConfigSingleton.getInstance().getConfig().getDiscordBotToken();
         if ("bot_token_goes_here".equals(token))
         {
             logger.error("Please update your config.json");
