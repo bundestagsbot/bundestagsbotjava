@@ -1,4 +1,4 @@
-package org.bundestagsbot.config.global.jsonmap;
+package org.bundestagsbot.config.jsonmap;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
@@ -8,13 +8,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.HashMap;
 import java.util.Map;
 
-public class GlobalConfigJson {
+public class BotConfigJson {
     @JsonProperty("discord_bot_token")
     private String discordBotToken;
     @JsonProperty("activity_string")
     private String activityString;
-    @JsonProperty("default_prefix")
-    private String defaultPrefix;
+    @JsonProperty("command_prefix")
+    private String commandPrefix;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<>();
 
@@ -26,8 +26,8 @@ public class GlobalConfigJson {
         return activityString;
     }
 
-    public String getDefaultPrefix() {
-        return defaultPrefix;
+    public String getCommandPrefix() {
+        return commandPrefix;
     }
 
 

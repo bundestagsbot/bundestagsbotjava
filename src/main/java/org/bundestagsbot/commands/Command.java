@@ -2,8 +2,7 @@ package org.bundestagsbot.commands;
 
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
-import org.bundestagsbot.config.global.GlobalConfigSingleton;
-import org.bundestagsbot.config.guild.GuildConfigSingleton;
+import org.bundestagsbot.config.BotConfigSingleton;
 import org.bundestagsbot.exceptions.CommandCreationFailedException;
 
 import java.util.Arrays;
@@ -26,14 +25,12 @@ public class Command
         this.author = event.getAuthor();
         this.channel = event.getChannel();
         this.message = event.getMessage();
+        this.prefix = BotConfigSingleton.getInstance().getConfig().getCommandPrefix();
 
         if (!ChannelType.PRIVATE.equals(event.getChannelType())) {
             this.guild = event.getGuild();
-            String definedPrefix = GuildConfigSingleton.getInstance().getConfig(event.getGuild().getId()).getCommandPrefix();
-            this.prefix = definedPrefix == null ? GlobalConfigSingleton.getInstance().getConfig().getDefaultPrefix() : definedPrefix;
         } else {
             this.guild = null;
-            this.prefix = GlobalConfigSingleton.getInstance().getConfig().getDefaultPrefix();
         }
 
         String messageContent = event.getMessage().getContentRaw();
