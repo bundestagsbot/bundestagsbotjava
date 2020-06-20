@@ -4,9 +4,7 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.bundestagsbot.commands.Command;
 import org.bundestagsbot.commands.CommandHandler;
-import org.bundestagsbot.exceptions.CommandExecuteException;
 
 import javax.annotation.Nonnull;
 

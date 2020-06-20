@@ -8,6 +8,7 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.bundestagsbot.config.BotConfigSingleton;
 import org.bundestagsbot.listeners.MessageReceived;
+import org.bundestagsbot.listeners.NewMemberJoined;
 
 import javax.security.auth.login.LoginException;
 
@@ -26,7 +27,7 @@ public class DiscordClient extends ListenerAdapter
         String token = BotConfigSingleton.getInstance().getConfig().getDiscordBotToken();
         if ("bot_token_goes_here".equals(token))
         {
-            logger.error("Please update your config.json");
+            logger.error("Please update your config.json. Did you forget to insert your own Token?");
             System.exit(1);
         }
         logger.info("Connecting bot...");
@@ -36,6 +37,7 @@ public class DiscordClient extends ListenerAdapter
             JDA jda = JDABuilder.create(token, GatewayIntent.getIntents(GatewayIntent.ALL_INTENTS))
                     .addEventListeners(new DiscordConnectionHandling())
                     .addEventListeners(new MessageReceived())
+                    .addEventListeners(new NewMemberJoined())
                     .build();
             jda.awaitReady();
         } catch (LoginException | InterruptedException ex)
