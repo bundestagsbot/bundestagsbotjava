@@ -7,6 +7,7 @@ import org.apache.log4j.Logger;
 import org.bundestagsbot.commands.Command;
 import org.bundestagsbot.commands.CommandHandler;
 import org.bundestagsbot.exceptions.CommandExecuteException;
+import org.bundestagsbot.internals.suggestions.SuggestionHandler;
 
 import javax.annotation.Nonnull;
 
@@ -15,7 +16,8 @@ public class MessageReceived extends ListenerAdapter
 
     private static final Logger logger = LogManager.getLogger(MessageReceived.class.getName());
 
-    private final CommandHandler handler = new CommandHandler();
+    private final CommandHandler commandHandler = new CommandHandler();
+    private final SuggestionHandler suggestionHandler = new SuggestionHandler();
 
 
     @Override
@@ -24,6 +26,7 @@ public class MessageReceived extends ListenerAdapter
         if (event.getAuthor() == event.getJDA().getSelfUser())
             return; // do not log self
 
-        handler.handle(event);
+        commandHandler.handle(event);
+        suggestionHandler.handle(event);
     }
 }

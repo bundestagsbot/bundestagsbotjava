@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class BotConfigJson {
@@ -15,6 +16,8 @@ public class BotConfigJson {
     private String activityString;
     @JsonProperty("command_prefix")
     private String commandPrefix;
+    @JsonProperty("suggestion_channels")
+    private List<String> suggestionChannels;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<>();
 
@@ -30,6 +33,7 @@ public class BotConfigJson {
         return commandPrefix;
     }
 
+    public List<String> getSuggestionChannels() { return suggestionChannels; }
 
     @JsonAnyGetter
     public Map<String, Object> getAdditionalProperties() {
