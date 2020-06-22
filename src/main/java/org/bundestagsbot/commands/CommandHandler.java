@@ -13,7 +13,6 @@ import org.bundestagsbot.commands.impl.ICommandExecutor;
 import org.bundestagsbot.config.BotConfigSingleton;
 import org.bundestagsbot.embeds.ErrorLogEmbed;
 import org.bundestagsbot.exceptions.CommandCreationFailedException;
-import org.bundestagsbot.exceptions.CommandExecuteException;
 
 import java.util.HashMap;
 import java.util.Map;

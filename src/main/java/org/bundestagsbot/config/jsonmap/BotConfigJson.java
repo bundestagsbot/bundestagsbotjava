@@ -16,6 +16,8 @@ public class BotConfigJson {
     private String activityString;
     @JsonProperty("command_prefix")
     private String commandPrefix;
+    @JsonProperty("welcome_message")
+    private String welcomeMessage;
     @JsonProperty("suggestion_channels")
     private List<String> suggestionChannels;
     @JsonIgnore
@@ -31,6 +33,10 @@ public class BotConfigJson {
 
     public String getCommandPrefix() {
         return commandPrefix;
+    }
+
+    public String getWelcomeMessage() {
+        return welcomeMessage;
     }
 
     public List<String> getSuggestionChannels() { return suggestionChannels; }
