@@ -5,7 +5,6 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.bundestagsbot.commands.CommandHandler;
-import org.bundestagsbot.exceptions.CommandExecuteException;
 import org.bundestagsbot.internals.suggestions.SuggestionHandler;
 
 import javax.annotation.Nonnull;
