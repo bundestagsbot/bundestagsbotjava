@@ -10,6 +10,7 @@ import org.apache.log4j.Logger;
 import org.bundestagsbot.commands.impl.ACommandExecutor;
 import org.bundestagsbot.commands.impl.ECommandExecutor;
 import org.bundestagsbot.commands.impl.ICommandExecutor;
+import org.bundestagsbot.config.BotConfigSingleton;
 import org.bundestagsbot.embeds.ErrorLogEmbed;
 import org.bundestagsbot.exceptions.CommandCreationFailedException;
 
@@ -20,7 +21,6 @@ import java.util.stream.Collectors;
 public class CommandHandler extends ListenerAdapter
 {
     private static final Logger logger = LogManager.getLogger(CommandHandler.class.getName());
-    // register commands here
 
     private final Map<String, ICommandExecutor> commands = new HashMap<>();
 
@@ -49,6 +49,10 @@ public class CommandHandler extends ListenerAdapter
     {
         if (event.getAuthor() == event.getJDA().getSelfUser())
             return false;
+
+        if (BotConfigSingleton.getInstance().getConfig().getSuggestionChannels().contains(event.getChannel().getId())) {
+            return false;
+        }
 
         // TODO: handle per guild config for bot command channel
         return event.getMessage().getType() == MessageType.DEFAULT && (event.getChannelType() == ChannelType.TEXT || event.getChannelType() == ChannelType.PRIVATE);
