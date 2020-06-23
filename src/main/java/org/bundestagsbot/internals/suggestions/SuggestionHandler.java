@@ -4,12 +4,13 @@ import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.bundestagsbot.commands.CommandHandler;
 import org.bundestagsbot.config.BotConfigSingleton;
 import org.bundestagsbot.embeds.NeutralLogEmbed;
 
 public class SuggestionHandler {
-    private static final Logger logger = LogManager.getLogger(CommandHandler.class.getName());
+    private static final Logger logger = LogManager.getLogger(SuggestionHandler.class.getName());
+    private static final String thumbsUpEmoji = "\uD83D\uDC4D";
+    private static final String thumbsDownEmoji = "\uD83D\uDC4E";
 
     public void handle(MessageReceivedEvent event) {
         if (ChannelType.PRIVATE.equals(event.getChannelType())) {
@@ -30,8 +31,8 @@ public class SuggestionHandler {
 
         event.getMessage().delete().queue();
         event.getChannel().sendMessage(suggestionEmbed.build()).queue(success -> {
-            success.addReaction("\uD83D\uDC4D").queue();  // thumbs up
-            success.addReaction("\uD83D\uDC4E").queue();  // thumbs down
+            success.addReaction(thumbsUpEmoji).queue();
+            success.addReaction(thumbsDownEmoji).queue();
         });
     }
 }
