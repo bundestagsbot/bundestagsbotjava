@@ -20,6 +20,10 @@ public class BotConfigJson {
     private String welcomeMessage;
     @JsonProperty("suggestion_channels")
     private List<String> suggestionChannels;
+    @JsonProperty("role_reaction_channels")
+    private List<String> roleReactionChannels;
+    @JsonProperty("role_on_reaction")
+    private Map<String, String> roleOnReaction;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<>();
 
@@ -40,6 +44,10 @@ public class BotConfigJson {
     }
 
     public List<String> getSuggestionChannels() { return suggestionChannels; }
+
+    public List<String> getRoleReactionChannels() { return roleReactionChannels; }
+
+    public Map<String, String> getRoleOnReaction() { return roleOnReaction; }
 
     @JsonAnyGetter
     public Map<String, Object> getAdditionalProperties() {

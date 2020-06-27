@@ -3,5 +3,9 @@
   "activity_string": "Besserer Bundestagsbot",
   "command_prefix": "_",
   "welcome_message": "Herzlich Willkommen auf dem BoB Server, {username}! \nWenn du eine Übersicht über die Bot-Commands bekommen willst, geb einfach _help ein.",
-  "suggestion_channels": ["channel_ids"]
+  "suggestion_channels": ["channel_ids"],
+  "role_reaction_channels": ["channel_ids"],
+  "role_on_reaction": {
+    "emoji_id": "role_id"
+  }
 }

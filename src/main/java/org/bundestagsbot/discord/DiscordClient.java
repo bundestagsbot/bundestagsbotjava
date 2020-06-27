@@ -7,6 +7,7 @@ import net.dv8tion.jda.api.requests.GatewayIntent;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.bundestagsbot.config.BotConfigSingleton;
+import org.bundestagsbot.listeners.GuildMessageReaction;
 import org.bundestagsbot.listeners.MessageReceived;
 import org.bundestagsbot.listeners.GuildMemberJoin;
 
@@ -38,6 +39,7 @@ public class DiscordClient extends ListenerAdapter
                     .addEventListeners(new DiscordConnectionHandling())
                     .addEventListeners(new MessageReceived())
                     .addEventListeners(new GuildMemberJoin())
+                    .addEventListeners(new GuildMessageReaction())
                     .build();
             jda.awaitReady();
         } catch (LoginException | InterruptedException ex)
