@@ -10,10 +10,10 @@ import net.dv8tion.jda.api.events.ReconnectedEvent;
 import net.dv8tion.jda.api.events.ResumedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.bundestagsbot.config.BotConfigSingleton;
+import org.bundestagsbot.exceptions.ConfigInvalidException;
+import org.bundestagsbot.internals.startupcheck.ConfigChecks;
 
 import javax.annotation.Nonnull;
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class DiscordConnectionHandling extends ListenerAdapter {
 
@@ -31,6 +31,13 @@ public class DiscordConnectionHandling extends ListenerAdapter {
         Object activity = BotConfigSingleton.getInstance().getConfig().getActivityString();
         if (activity != null) {
             event.getJDA().getPresence().setActivity(Activity.playing(activity.toString()));
+        }
+        ConfigChecks configChecks = new ConfigChecks(event.getJDA());
+        try {
+            configChecks.checkConfig();
+        } catch (ConfigInvalidException e) {
+            logger.error("Some values defined in the config seems to be invalid.", e);
+            System.exit(1);
         }
     }
 
