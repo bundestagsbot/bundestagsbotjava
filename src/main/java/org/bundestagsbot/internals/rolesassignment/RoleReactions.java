@@ -23,27 +23,29 @@ public class RoleReactions {
     }
 
     private static void _handleReaction(GenericGuildMessageReactionEvent event, boolean reactionAdded) {
-        if (BotConfigSingleton.getInstance().getConfig().getRoleReactionChannels().contains(event.getChannel().getId())) {
-            if (BotConfigSingleton.getInstance().getConfig().getRoleOnReaction().containsKey(event.getReactionEmote().getId())) {
-                Role selectedRole = event.getGuild().getRoleById(BotConfigSingleton.getInstance().getConfig().getRoleOnReaction().get(event.getReactionEmote().getId()));
+        if (!BotConfigSingleton.getInstance().getConfig().getRoleReactionChannels().contains(event.getChannel().getId())) {
+            return;
+        }
+        if (!BotConfigSingleton.getInstance().getConfig().getRoleOnReaction().containsKey(event.getReactionEmote().getId())) {
+            return;
+        }
 
-                if (event.getMember() == null || selectedRole == null) {
-                    logger.warn("Could not fetch member or role on reaction add in channel \"" + event.getChannel().getName() + "\".");
-                    return;
-                }
+        Role selectedRole = event.getGuild().getRoleById(BotConfigSingleton.getInstance().getConfig().getRoleOnReaction().get(event.getReactionEmote().getId()));
 
-                logger.debug("Handling reaction \"" + event.getReactionEmote().getName() + "\" for role \"" + selectedRole.getName() + "\".");
-                try {
-                    if (reactionAdded) {
-                        event.getGuild().addRoleToMember(event.getMember(), selectedRole).queue();
-                    } else {
-                        event.getGuild().removeRoleFromMember(event.getMember(), selectedRole).queue();
-                    }
-                } catch(HierarchyException | InsufficientPermissionException | IllegalArgumentException ex) {
-                    logger.error("Something went wrong while assigning a role to a user.", ex);
-                }
+        if (event.getMember() == null || selectedRole == null) {
+            logger.warn("Could not fetch member or role on reaction add in channel \"" + event.getChannel().getName() + "\".");
+            return;
+        }
 
+        logger.debug("Handling reaction \"" + event.getReactionEmote().getName() + "\" for role \"" + selectedRole.getName() + "\".");
+        try {
+            if (reactionAdded) {
+                event.getGuild().addRoleToMember(event.getMember(), selectedRole).queue();
+            } else {
+                event.getGuild().removeRoleFromMember(event.getMember(), selectedRole).queue();
             }
+        } catch(HierarchyException | InsufficientPermissionException | IllegalArgumentException ex) {
+            logger.error("Something went wrong while assigning a role to a user.", ex);
         }
     }
 }

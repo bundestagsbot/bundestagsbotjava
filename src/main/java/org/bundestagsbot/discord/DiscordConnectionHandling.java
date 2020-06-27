@@ -1,6 +1,5 @@
 package org.bundestagsbot.discord;
 
-import net.dv8tion.jda.api.entities.Guild;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import net.dv8tion.jda.api.entities.Activity;
@@ -34,7 +33,7 @@ public class DiscordConnectionHandling extends ListenerAdapter {
         }
         ConfigChecks configChecks = new ConfigChecks(event.getJDA());
         try {
-            configChecks.checkConfig();
+            configChecks.checkCompleteConfig();
         } catch (ConfigInvalidException e) {
             logger.error("Some values defined in the config seems to be invalid.", e);
             System.exit(1);
