@@ -21,13 +21,13 @@ public class ConfigChecks {
     }
 
     public void checkCompleteConfig() throws ConfigInvalidException {
-        countInvalidChannels("suggestion_channels", BotConfigSingleton.getInstance().getConfig().getSuggestionChannels());
-        countInvalidChannels("role_reaction_channels", BotConfigSingleton.getInstance().getConfig().getRoleReactionChannels());
-        countInvalidEmotes("role_on_reaction", new ArrayList<>(BotConfigSingleton.getInstance().getConfig().getRoleOnReaction().keySet()));
-        countInvalidRoles("role_on_reaction", new ArrayList<>(BotConfigSingleton.getInstance().getConfig().getRoleOnReaction().values()));
+        checkForInvalidChannels("suggestion_channels", BotConfigSingleton.getInstance().getConfig().getSuggestionChannels());
+        checkForInvalidChannels("role_reaction_channels", BotConfigSingleton.getInstance().getConfig().getRoleReactionChannels());
+        checkForInvalidEmotes("role_on_reaction", new ArrayList<>(BotConfigSingleton.getInstance().getConfig().getRoleOnReaction().keySet()));
+        checkForInvalidRoles("role_on_reaction", new ArrayList<>(BotConfigSingleton.getInstance().getConfig().getRoleOnReaction().values()));
     }
 
-    private void countInvalidChannels(String configKey, List<String> channelIds) throws ConfigInvalidException {
+    private void checkForInvalidChannels(String configKey, List<String> channelIds) throws ConfigInvalidException {
         for(String channelId : channelIds) {
             try {
                 GuildChannel channel = jda.getGuildChannelById(channelId);
@@ -40,7 +40,7 @@ public class ConfigChecks {
         }
     }
 
-    private void countInvalidRoles(String configKey, List<String> roleIds) throws ConfigInvalidException {
+    private void checkForInvalidRoles(String configKey, List<String> roleIds) throws ConfigInvalidException {
         for(String roleId : roleIds ) {
             try {
                 Role role = jda.getRoleById(roleId);
@@ -53,7 +53,7 @@ public class ConfigChecks {
         }
     }
 
-    private void countInvalidEmotes(String configKey, List<String> emoteIds) throws ConfigInvalidException {
+    private void checkForInvalidEmotes(String configKey, List<String> emoteIds) throws ConfigInvalidException {
         for(String emoteId : emoteIds ) {
             try {
                 Emote emote = jda.getEmoteById(emoteId);
