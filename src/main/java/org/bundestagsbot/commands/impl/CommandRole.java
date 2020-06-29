@@ -15,9 +15,7 @@ public class CommandRole extends ACommandExecutor {
 
     private static final String WHITE_CHECK_MARK = "\u2705";
 
-    public CommandRole(JDA jda) {
-        super(ChannelType.TEXT);
-    }
+    public CommandRole() { super(ChannelType.TEXT); }
 
     @Override
     public void onExecute(Command cmd, JDA jda) throws CommandExecuteException {
