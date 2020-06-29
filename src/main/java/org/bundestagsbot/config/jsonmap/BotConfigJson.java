@@ -24,6 +24,8 @@ public class BotConfigJson {
     private List<String> roleReactionChannels;
     @JsonProperty("role_on_reaction")
     private Map<String, String> roleOnReaction;
+    @JsonProperty("assignable_roles")
+    private List<String> assignableRoles;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<>();
 
@@ -48,6 +50,8 @@ public class BotConfigJson {
     public List<String> getRoleReactionChannels() { return roleReactionChannels; }
 
     public Map<String, String> getRoleOnReaction() { return roleOnReaction; }
+
+    public List<String> getAssignableRoles() { return assignableRoles; }
 
     @JsonAnyGetter
     public Map<String, Object> getAdditionalProperties() {

@@ -12,6 +12,8 @@ public enum ECommandExecutor implements IInstanceableEnum
     SURVEY(new InstanceableClass(CommandSurvey.class)),
 
     POST(new InstanceableClass(CommandPost.class)),
+
+    ROLE(new InstanceableClass(CommandRole.class))
     ;
 
     private final InstanceableClass impl;

@@ -25,6 +25,7 @@ public class ConfigChecks {
         checkForInvalidChannels("role_reaction_channels", BotConfigSingleton.getInstance().getConfig().getRoleReactionChannels());
         checkForInvalidEmotes("role_on_reaction", new ArrayList<>(BotConfigSingleton.getInstance().getConfig().getRoleOnReaction().keySet()));
         checkForInvalidRoles("role_on_reaction", new ArrayList<>(BotConfigSingleton.getInstance().getConfig().getRoleOnReaction().values()));
+        checkForInvalidRoles("assignable_roles", BotConfigSingleton.getInstance().getConfig().getAssignableRoles());
     }
 
     private void checkForInvalidChannels(String configKey, List<String> channelIds) throws ConfigInvalidException {
