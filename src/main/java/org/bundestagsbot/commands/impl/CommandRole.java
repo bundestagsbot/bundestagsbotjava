@@ -20,31 +20,23 @@ public class CommandRole extends ACommandExecutor {
     @Override
     public void onExecute(Command cmd, JDA jda) throws CommandExecuteException {
         if (cmd.getArgs().size() != 2) {
-            ErrorLogEmbed errorLogEmbed = new ErrorLogEmbed();
-            errorLogEmbed.setDescription("Invalid number of arguments, please refer to: `help role`");
-            cmd.getChannel().sendMessage(errorLogEmbed.build()).queue();
+            sendErrorMessage(cmd.getChannel(), "Invalid number of arguments, please refer to: `help role`");
             return;
         }
 
         if (ChannelType.PRIVATE.equals(cmd.getChannel().getType())) {
-            ErrorLogEmbed errorLogEmbed = new ErrorLogEmbed();
-            errorLogEmbed.setDescription("This command is only usable on a discord server.");
-            cmd.getChannel().sendMessage(errorLogEmbed.build()).queue();
+            sendErrorMessage(cmd.getChannel(), "This command is only usable on a discord server.");
             return;
         }
 
         List<Role> foundRoles = cmd.getGuild().get().getRolesByName(cmd.getArgs().get(1), true);
         if (foundRoles.isEmpty()) {
-            ErrorLogEmbed errorLogEmbed = new ErrorLogEmbed();
-            errorLogEmbed.setDescription("Invalid role specified.");
-            cmd.getChannel().sendMessage(errorLogEmbed.build()).queue();
+            sendErrorMessage(cmd.getChannel(), "Invalid role specified.");
             return;
         }
         Role specifiedRole = foundRoles.get(0);
         if (!BotConfigSingleton.getInstance().getConfig().getAssignableRoles().contains(specifiedRole.getId())) {
-            ErrorLogEmbed errorLogEmbed = new ErrorLogEmbed();
-            errorLogEmbed.setDescription("This role is not assignable.");
-            cmd.getChannel().sendMessage(errorLogEmbed.build()).queue();
+            sendErrorMessage(cmd.getChannel(), "This role is not assignable.");
             return;
         }
 
