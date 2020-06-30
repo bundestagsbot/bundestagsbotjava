@@ -1,7 +1,9 @@
 package org.bundestagsbot.commands.impl;
 
 import net.dv8tion.jda.api.entities.ChannelType;
+import net.dv8tion.jda.api.entities.MessageChannel;
 import org.bundestagsbot.commands.CommandHandler;
+import org.bundestagsbot.embeds.ErrorLogEmbed;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -28,5 +30,11 @@ public abstract class ACommandExecutor implements ICommandExecutor
 
     protected ACommandExecutor(ChannelType... channels) {
         allowedChannelTypes.addAll(Arrays.asList(channels));
+    }
+
+    public void sendErrorMessage(MessageChannel channel, String message) {
+        ErrorLogEmbed errorLogEmbed = new ErrorLogEmbed();
+        errorLogEmbed.setDescription(message);
+        channel.sendMessage(errorLogEmbed.build()).queue();
     }
 }
